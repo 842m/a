@@ -647,6 +647,22 @@ UserInputService.InputEnded:Connect(function(inputObject)
     end
 end)
 
+-- Enquanto o autofarm estiver ligado, faz um unico salto a cada 5 segundos.
+task.spawn(function()
+    while running do
+        task.wait(5)
+
+        if farmEnabled then
+            local character = player.Character
+            local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+
+            if humanoid and humanoid.Health > 0 then
+                humanoid.Jump = true
+            end
+        end
+    end
+end)
+
 task.spawn(function()
     while running do
         refreshCandies()
@@ -706,3 +722,4 @@ end)
 
 refreshCandies()
 print("[Candy] UI carregada. Clique nas teclas para definir os atalhos.")
+
